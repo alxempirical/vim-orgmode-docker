@@ -1,0 +1,1 @@
+Simple Dockerfile for installing org-mode and recommended additions to vim.

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -xe
+mkdir "$1"
+cd "$1"
+# Download the script, and uncompress it, if need be
+wget -O - -q http://www.vim.org/scripts/download_script.php?src_id="$2" | zless > ~/.vim/vimballs/"$1".vba
+
+# Installs the script in vim
+function build {
+    vim -s /dev/null -c 'set nomore' -c 'so % | q' -c 'helptags ~/.vim' \
+        ~/.vim/vimballs/"$1".vba
+}
+
+# Check the installation for errors
+if [ -n "`build $1 | grep -i 'error'`" ] ; then
+    echo "Failed to build $1!"
+    exit 1
+fi
